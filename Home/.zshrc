@@ -11,6 +11,9 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Path to Neovim
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -78,7 +81,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -111,6 +114,7 @@ source $ZSH/oh-my-zsh.sh
 # file system aliases
 alias ls='eza -L 1 -l --icons --no-permissions --no-user --no-time -T'
 alias ls2='eza -L 2 -l --icons --no-permissions --no-user --no-time -T'
+alias vim="nvim"
 
 # git aliases
 alias fnp='git fetch && git pull'
