@@ -14,6 +14,12 @@ export ZSH="$HOME/.oh-my-zsh"
 # Path to Neovim
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
+# Path to dotnet tools
+export PATH="$HOME/.dotnet/tools:$PATH"
+
+# Path to Ant
+export PATH="$HOME/Downloads/apache-ant-1.9.4/bin:$PATH"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -114,11 +120,37 @@ source $ZSH/oh-my-zsh.sh
 # file system aliases
 alias ls='eza -L 1 -l --icons --no-permissions --no-user --no-time -T'
 alias ls2='eza -L 2 -l --icons --no-permissions --no-user --no-time -T'
+
+# runnable aliases
 alias vim="nvim"
+alias magic="sudo"
+alias bat="batcat"
+alias k8s="microk8s"
+alias k="kubectl"
+
+# cool stuff
+function giveme {
+    sudo apt install $1
+}
+
+function obliterate {
+    sudo apt remove $1
+}
+
+function preview {
+    fzf --preview 'batcat --color=always {}'
+}
 
 # git aliases
-alias fnp='git fetch && git pull'
-
+function fnp {
+    git fetch && git pull
+}
+function clone {
+	git clone $(cat ~/.custom/domain)/$1.git
+}
+function cloned {
+	git clone git@github.com:$1/$2.git
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
