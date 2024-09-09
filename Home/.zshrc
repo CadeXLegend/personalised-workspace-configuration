@@ -175,6 +175,16 @@ function repod {
     fi
 }
 
+function repob {
+    local selected_repo=$(gh search repos \"${1}\" --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
+        jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
+        fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
+
+    if [[ -n "$selected_repo" ]]; then
+        gh browse -R $(echo $(cat ~/.custom/domain)/$selected_repo.git)
+    fi
+}
+
 function aptupdate {
 	sudo apt update && sudo apt upgrade
 }
