@@ -17,8 +17,8 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 # Path to dotnet tools
 export PATH="$HOME/.dotnet/tools:$PATH"
 
-# Path to Ant
-export PATH="$HOME/Downloads/apache-ant-1.9.4/bin:$PATH"
+# Path to yarn stuff
+export PATH="$PATH:$(yarn global bin)"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -120,9 +120,8 @@ source $ZSH/oh-my-zsh.sh
 # file system aliases
 alias ls='eza -L 1 -l --icons --no-permissions --no-user --no-time -T'
 alias ls2='eza -L 2 -l --icons --no-permissions --no-user --no-time -T'
-
-# runnable aliases
 alias vim="nvim"
+#alias javac="java"
 alias magic="sudo"
 alias bat="batcat"
 alias k8s="microk8s"
@@ -143,14 +142,47 @@ function preview {
 
 # git aliases
 function fnp {
-    git fetch && git pull
+	git fetch && git pull
 }
+
 function clone {
-	git clone $(cat ~/.custom/domain)/$1.git
+    local full_repo_name=$(repo $1)
+	git clone $(cat ~/.custom/domain)/$full_repo_name.git
 }
+
 function cloned {
-	git clone git@github.com:$1/$2.git
+    local full_repo_name=$(repo $1)
+	git clone git@github.com:$full_repo_name/$2.git
 }
+
+function repo {
+    local selected_repo=$(gh search repos \"${1}\" --owner=$(cat ~/.custom/domain) --archived=false --json name | \
+        jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
+        fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
+
+    if [[ -n "$selected_repo" ]]; then
+        echo $selected_repo
+    fi
+}
+
+function repod {
+    local selected_repo=$(gh search repos \"${1}\" --owner=$2 --archived=false --json name | \
+        jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
+        fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
+
+    if [[ -n "$selected_repo" ]]; then
+        echo $selected_repo
+    fi
+}
+
+function aptupdate {
+	sudo apt update && sudo apt upgrade
+}
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
