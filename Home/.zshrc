@@ -156,7 +156,7 @@ function cloned {
 }
 
 function repo {
-    local selected_repo=$(gh search repos \"${1}\" --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
+    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
         jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
         fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
 
@@ -166,7 +166,7 @@ function repo {
 }
 
 function repod {
-    local selected_repo=$(gh search repos \"${1}\" --owner=$2 --archived=false --json name | \
+    local selected_repo=$(gh search repos $1 --owner=$2 --archived=false --json name | \
         jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
         fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
 
@@ -176,7 +176,7 @@ function repod {
 }
 
 function repob {
-    local selected_repo=$(gh search repos \"${1}\" --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
+    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
         jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
         fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
 
