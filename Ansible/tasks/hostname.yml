@@ -1,0 +1,6 @@
+- name: Set hostname
+  when: custom_hostname is defined
+  become: true
+  ansible.builtin.hostname:
+    name: "{{ custom_hostname }}"
+    use: systemd

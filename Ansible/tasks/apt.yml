@@ -1,0 +1,47 @@
+- name: Install apt signing keys with keyring
+  when:
+    - add_apt_repositories
+    - apt_repositories is defined
+    - apt_repositories is iterable
+    - apt_repositories | length > 0
+  become: yes
+  become_user: root
+  ansible.builtin.apt_key:
+    url: "{{ item.gpg_key }}"
+    keyring: "{{ item.keyring }}"
+  loop: "{{ apt_repositories }}"
+
+- name: Install apt repositories
+  when:
+    - add_apt_repositories
+    - apt_repositories is defined
+    - apt_repositories is iterable
+    - apt_repositories | length > 0
+  become: yes
+  become_user: root
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repository }}"
+    state: present
+    update_cache: true
+  loop: "{{ apt_repositories }}"
+  
+
+- name: Install apt packages
+  when: apt_packages is defined
+  become: yes
+  become_user: root
+  ansible.builtin.apt:
+    name: "{{ item.name | default(item) }}"
+    autoclean: true
+    autoremove: true
+    update_cache: true
+    state: latest
+  loop: "{{ apt_packages }}"
+  register: install_result
+
+- name: Clean apt cache
+  when: apt_packages is defined and not install_result.skipped
+  become: yes
+  become_user: root
+  ansible.builtin.command: >
+    apt clean && apt autoremove && apt autoclean

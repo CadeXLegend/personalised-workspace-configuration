@@ -1,26 +1,30 @@
 # personalised-workspace-configuration
 
-A collection of customised configs that I spent time on and other workspace stuff for me to keep
+> [!TIP]
+> This repository is forever evolving, and might change drastically as time goes on
+
+> [!NOTE]
+> I'm trying out [Nushell](https://www.nushell.sh/book/installation.html#package-managers), so I've moved zsh to its own folder
+> Currently, the Ansible automated setup is only configured to setup Nu & related tools
+> For example: FNM instead of NVM for node management, due to Nushell being non-POSIX & Rust-first
 
 > [!WARNING]
-> Make sure to install oh-my-zsh, and p10k before copying these files or it won't work!
+> This repository is currently customised, and setup for Ubuntu 22.04 based Linux environments
+> For support of non-Ubuntu based environments, please contribute
 
-[Installing oh-my-zsh](https://ohmyz.sh/#install)
+A collection of:
+- customised configs
+- automated setups
+- helper scripts
 
-[Installing PowerLevel10k](https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#oh-my-zsh)
+## Ansible Installations
 
-## Installing Extensions
+The installable packages using Ansible are currently:
+- eza
+- fnm
+- github cli
+- node.js
+- nushell
+- obsidian
+- vscode
 
-[Installing EZA](https://github.com/eza-community/eza/blob/main/INSTALL.md)
-
-[Installing zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
-
-
-
-## Issues with Snap .desktop apps after switching to Zsh
-
-Move the .desktop apps to `/usr/share/applications/`
-```bash
-cd /var/lib/snapd/desktop/applications/
-sudo cp *.desktop /usr/share/applications/
-```
