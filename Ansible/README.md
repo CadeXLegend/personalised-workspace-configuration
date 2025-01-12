@@ -5,7 +5,7 @@
 > 
 > By default, it will run all enabled tasks
 >
-> You can choose to run specific tasks by providing a the `--tags` parameter
+> You can choose to run specific tasks by providing the `--tags` parameter with task names
 
 ## Installing Ansible
 
