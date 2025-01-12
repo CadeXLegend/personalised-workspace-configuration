@@ -35,15 +35,15 @@ I've set it up to be the default of how I like it
 
 To run this playbook, run the command(s) below
 
-    ```shell
-    # default install with all tasks
-    ansible-playbook playbook.yml --ask-become-pass
+```shell
+# default install with all tasks
+ansible-playbook playbook.yml --ask-become-pass
 
-    # selective install of specific packages
-    ansible-playbook playbook.yml --tags "cargo,create-directories" --ask-become-pass
+# selective install of specific packages
+ansible-playbook playbook.yml --tags "cargo,create-directories" --ask-become-pass
 
-    # to debug any issues, enable verbosity levels
-    ansible-playbook playbook.yml --ask-become-pass -vv   # surface level json styled info
-    ansible-playbook playbook.yml --ask-become-pass -vvv  # more granular command info
-    ansible-playbook playbook.yml --ask-become-pass -vvvv # detailed output from everything
-    ```
+# to debug any issues, enable verbosity levels
+ansible-playbook playbook.yml --ask-become-pass -vv   # surface level json styled info
+ansible-playbook playbook.yml --ask-become-pass -vvv  # more granular command info
+ansible-playbook playbook.yml --ask-become-pass -vvvv # detailed output from everything
+```
