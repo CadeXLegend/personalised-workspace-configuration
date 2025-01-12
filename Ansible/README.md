@@ -1,8 +1,11 @@
 # Ansible Automated Environment Setup
 
 > [!TIP]
-> You can selectively install what you want by defining each task you want in the tags parameter
-> By default, it will run all tasks
+> You can selectively install what you want by customising the [config.yml](./config.yml)
+> 
+> By default, it will run all enabled tasks
+>
+> You can choose to run specific tasks by providing a the `--tags` parameter
 
 ## Installing Ansible
 
