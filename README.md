@@ -16,18 +16,6 @@
 > For support of non-Ubuntu based environments, please contribute
 
 A collection of:
-- customised configs
 - automated setups
+- customised configs
 - helper scripts
-
-## Ansible Installations
-
-The installable packages using Ansible are currently:
-- eza
-- fnm
-- github cli
-- node.js
-- nushell
-- obsidian
-- vscode
-
