@@ -39,8 +39,8 @@
         state: present
 
 - name: Install cargo packages
+  when: cargo_packages is defined
   become: yes
   command: cargo install "{{ item.name | default(item) }}"
   loop: "{{ cargo_packages }}"
   register: install_result
-  when: cargo_packages is defined
