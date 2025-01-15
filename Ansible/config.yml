@@ -42,6 +42,7 @@ cargo_packages:
   - eza
   - fnm
   - ruplacer
+  - hurl
 
 install_flatpak_packages: true
 flatpak_packages:
