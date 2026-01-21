@@ -1,7 +1,7 @@
 # Personalised Workspace Configuration
 
 > [!IMPORTANT]
-> This should be cloned into your home directory
+> This should be cloned and unpacked into your home directory
 >
 > It has a gitignore configured to work in `~`
 
