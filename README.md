@@ -12,12 +12,17 @@ This is a modular, composition-based zsh configuration inspired by [this fantast
 ### Layout
 
 ```mermaid
+---
+config:
+  treemap:
+    showValues: false
+---
 treemap-beta
 "~/.custom"
     "zshrc"
         "plugins_extras": 1
         "aliases": 1
-        "functions": 3
+        "functions": 4
         "exports": 1
     "configs"
         "starship": 2
@@ -25,6 +30,7 @@ treemap-beta
         "orf": 1
     "scripts"
         "gradient": 2
+        "stardust": 2
         "escape-url": 1
         "emoji_selector": 1
         "http_status": 1
