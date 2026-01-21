@@ -9,8 +9,6 @@
 
 This is a modular, composition-based zsh configuration inspired by [this fantastic article](https://afridi.dev/articles/organize-your-zsh-configurations-and-plugins/), and taken a little bit further
 
-I'd like to give credit to [this useful list of scripts](https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/) for the [emoji](.custom/scripts/emoji-selector.sh) and [http status](.custom/scripts/http-status.sh) scripts
-
 ### Layout
 
 ```mermaid
@@ -36,7 +34,7 @@ treemap-beta
 
 For this setup, I've made sure it's extra light and minimal
 
-You don't need anything except [oh-my-zsh](https://ohmyz.sh/) 😺
+**Make sure you have [oh-my-zsh](https://ohmyz.sh/) 😺**
 
 ### Prompt Customisation
 
@@ -50,8 +48,12 @@ You don't need anything except [oh-my-zsh](https://ohmyz.sh/) 😺
 
 ### CLI Tools
 
-Some [functions](.custom/zshrc/functions.zsh) and one [alias](.custom/zshrc/aliases.zsh) use the below here or there for now
+Some [functions](.custom/zshrc/functions.zsh) and one [alias](.custom/zshrc/aliases.zsh) use the below here and there for now
 
 - [eza](https://github.com/eza-community/eza)
 - [jq](https://github.com/jqlang/jq)
 - [nushell](https://www.nushell.sh/) (as a subshell for pretty printing data structures)
+
+## Mentions
+
+I'd like to give credit to [this useful list of scripts](https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/) for [emoji](.custom/scripts/emoji-selector.sh) and [http status](.custom/scripts/http-status.sh)
