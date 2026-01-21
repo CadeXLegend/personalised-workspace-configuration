@@ -1,11 +1,5 @@
-# custom commands inside block start and block end
-# so we can list them with the funcs function
-
-### BLOCK START
-# upgrades everything - shorthand for pacman -Syu
-function upgrade {
-  sudo pacman -Syu
-}
+# Functions - you can view all functions by running `funcs` in the terminal
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # check for any running pacman processes - useful for when lock file issues occur
 function pacstat {
@@ -28,12 +22,12 @@ function wg-down {
 }
 
 # start WinApps docker container
-function winapps-up() {
+function winapps-up {
   docker container start WinApps
 }
 
 # stop WinApps docker container
-function winapps-down() {
+function winapps-down {
   docker container stop WinApps
 }
 
@@ -61,7 +55,7 @@ function cloned {
 }
 
 # Opens a local repo/folder in VSCode based on a fuzzy search in the path defined in the ~/.custom/configs/orf file
-function orf() {
+function orf {
   local search_term="$1"
   local search_dir=$(readlink -f "${HOME}${$(cat ~/.custom/configs/orf)}")
 
@@ -120,7 +114,7 @@ function repob {
 }
 
 # go to commonly used folders
-function goto() {
+function goto {
     case $1 in
         dev)
             cd ~/dev
@@ -154,12 +148,12 @@ function goto() {
 }
 
 # encode uri/url
-function escape() {
+function escape {
   ~/.custom/scripts/escape-url/escape "$1"
 }
 
 # validate json
-function vj() {
+function vj {
   result=$(jq empty < "$1" 2>&1)
   if [[ $result == *"parse error"* ]]; then
     line_number=$(echo "$result" | grep -oP 'line \K\d+')
@@ -188,12 +182,12 @@ function vj() {
 }
 
 # reload the shell
-function reload() {
+function reload {
     source ~/.zshrc
 }
 
 # repeat the last command
-function replay() {
+function replay {
     if [[ $(fc -ln -1) = "replay" ]]; then
         echo "infinite loop detected, stopping"
     elif [[ $(fc -ln -1) = "devreplay" ]]; then
@@ -204,7 +198,7 @@ function replay() {
 }
 
 # reload the shell and then repeat the last command
-function devreplay() {
+function devreplay {
     if [[ $(fc -ln -1) = "replay" ]]; then
         echo "infinite loop detected, stopping"
     elif [[ $(fc -ln -1) = "devreplay" ]]; then
@@ -218,32 +212,33 @@ function devreplay() {
 }
 
 # pretty print json
-function json() {
+function json {
     nu -c "cat $1 | from json"
 }
 
 # pretty print a space delimited table with nushell
-function table() {
+function table {
     nu -c "$1 | from ssv"
 }
 
 # search for any emoji using words and get matching emojis back
-function emoji() {
+function emoji {
     bash ~/.custom/scripts/emoji-selector.sh $1
 }
 
 # get a http status code description
-function http() {
+function http {
     bash ~/.custom/scripts/http-status.sh | grep -i $1
 }
 
-# generate gradient text - first input is the text, second and third are the colours as hex strings
-function gradiate() {
+# generate gradient text - first input is the text
+# second and third are the colours as hex strings
+function gradiate {
   ~/.custom/scripts/gradient/gradiate $1 $2 $3
 }
 
-# open zsh customisation files; use zedit help to get a list of available inputs
-function zedit() {
+# open zsh customisation files - use zedit help to get a list of available inputs
+function zedit {
     case $1 in
         help)
             echo "Available inputs:"
@@ -277,7 +272,7 @@ function zedit() {
 }
 
 # extract a markdown section from all markdown files in the current directory and subdirectories
-smdr() {
+function smdr {
   local heading="$1"
   local file section
   while IFS= read -r file; do
@@ -291,7 +286,7 @@ smdr() {
 }
 
 # extract a markdown section from a specified markdown file
-function mdr() {
+function mdr {
     local heading="$1"
     local readme_with_path="$2"
 
@@ -325,20 +320,20 @@ AWK_SCRIPT
 }
 
 # list all custom scripts
-function scripts() {
+function scripts {
   ls ~/.custom/scripts | awk '{ print $NF }' | sed '1d' | sed 's/.sh//' | sed 's/^/• /'
 }
 
-# list all my custom aliases
-function aliases() {
+# list all custom aliases
+function aliases {
   data_file="/tmp/aliases.csv"
 
   awk '
     BEGIN {
       print "alias,command,description"
     }
-    /### BLOCK START/ {flag=1; next}
-    /### BLOCK END/ {flag=0}
+    /# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -/ {flag=1; next}
+    /# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -/ {flag=0}
     flag && /^#/ {
       desc=substr($0, index($0, $2));
       gsub(/,/, "\\,", desc);  # Escape commas in description
@@ -356,27 +351,37 @@ function aliases() {
   nu -c "open $data_file --raw | from csv --flexible | table -e --theme rounded -i false"
 }
 
-# list all my custom functions
-function funcs() {
+# list all custom functions
+function funcs {
   data_file="/tmp/functions.csv"
 
   awk '
     BEGIN {
       print "function,description"
+      desc = ""
     }
-    /### BLOCK START/ {flag=1; next}
-    /### BLOCK END/ {flag=0}
+    /# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -/ {flag=1; next}
+    /# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -/ {flag=0; desc=""}
     flag && /^#/ {
-      desc=substr($0, index($0, $2));
-      gsub(/,/, "\\,", desc);  # Escape commas in description
+      if (desc != "") {
+        desc = desc " " substr($0, index($0, $2))
+      } else {
+        desc = substr($0, index($0, $2))
+      }
       next
     }
     flag && /^function / {
       gsub(/\(\)/, "", $2);
       print $2 "," desc
+      desc = ""
+      next
+    }
+    flag && !/^function / {
+      desc = ""
     }
   ' ~/.custom/zshrc/functions.zsh > "$data_file"
 
   nu -c "open $data_file --raw | from csv --flexible | table -e --theme rounded -i false"
 }
-### BLOCK END
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

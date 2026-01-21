@@ -1,3 +1,6 @@
+# Exports
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # snap
 snap_other_path="/var/lib/snapd/snap/bin"
 snap_bin_path="/snap/bin"
@@ -29,3 +32,5 @@ export NVM_DIR="$HOME/.nvm"
 # starship
 export STARSHIP_CONFIG=~/.custom/configs/starship.toml
 # starship end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

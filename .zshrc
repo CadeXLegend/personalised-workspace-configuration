@@ -1,10 +1,9 @@
-# load in custom stuff
+# Load in each module of custom zsh configuration
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 [[ -f ~/.custom/zshrc/plugins_extras.zsh ]] && source ~/.custom/zshrc/plugins_extras.zsh
 [[ -f ~/.custom/zshrc/aliases.zsh ]] && source ~/.custom/zshrc/aliases.zsh
 [[ -f ~/.custom/zshrc/functions.zsh ]] && source ~/.custom/zshrc/functions.zsh
 [[ -f ~/.custom/zshrc/exports.zsh ]] && source ~/.custom/zshrc/exports.zsh
-# end load in custom stuff
 
-# display system information on startup
-# this is a cachyos specific feature
-fastfetch
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

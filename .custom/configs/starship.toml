@@ -35,6 +35,6 @@ when = "true"
 format = '$output '
 
 [custom.directory_gradient]
-command = '~/.custom/scripts/gradient/target/release/gradiate --anchor-right --max-length 30 "${PWD/#$HOME/~} " "#371b52ff" "#ba40c5ff"'
+command = '~/.custom/scripts/gradient/gradiate --anchor-right --max-length 30 "${PWD/#$HOME/~} " "#371b52ff" "#ba40c5ff"'
 when = "true"
 format = 'in $output'

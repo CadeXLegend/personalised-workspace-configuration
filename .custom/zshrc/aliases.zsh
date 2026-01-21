@@ -1,9 +1,19 @@
-# custom aliases inside block start and block end
-# so we can list them with the aliases function
-
-### BLOCK START
+# Aliases - you can view all aliases by running `alias` in the terminal
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # overrides ls to provide a customised directory view
 alias ls='eza -L 1 -l --icons --no-permissions --no-user --no-time -T'
 
-### BLOCK END
+# upgrades everything with pacman
+alias upgrade='sudo pacman -Syu'
+
+# remove a pacman package along with its dependencies and config files
+alias remove='sudo pacman -Rsn'
+
+# cleanup orphaned packages
+alias cleanup="sudo pacman -Rsn $(pacman -Qtdq)"
+
+# display system information
+alias sysinf='fastfetch'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

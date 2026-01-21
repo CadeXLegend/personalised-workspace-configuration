@@ -3,7 +3,7 @@
 > [!IMPORTANT]
 > This should be cloned into your home directory
 >
-> It has a gitignore specially configured to work in home
+> It has a gitignore configured to work in `~`
 
 ## What is this?
 
@@ -45,6 +45,8 @@ You don't need anything except [oh-my-zsh](https://ohmyz.sh/) 😺
 ### Zsh Plugins
 
 - zsh-syntax-highlighting
+- zsh-autosuggestions
+- zsh-history-substring-search
 
 ### CLI Tools
 
