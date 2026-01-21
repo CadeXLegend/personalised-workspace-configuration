@@ -1,0 +1,11 @@
+[package]
+name = "escape"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+urlencoding = "2"
+
+[profile.release]
+strip = true
+lto = true

@@ -1,14 +1,55 @@
-# personalised-workspace-configuration
+# Personalised Workspace Configuration
 
-> [!TIP]
-> This repository is forever evolving, and might change drastically as time goes on
+> [!IMPORTANT]
+> This should be cloned into your home directory
+>
+> It has a gitignore specially configured to work in home
 
-> [!WARNING]
-> This repository is currently customised and setup for CachyOS
-> Except for the Ansible configuration, which was setup for Ubuntu
+## What is this?
 
-A collection of:
+This is a modular, composition-based zsh configuration inspired by [this fantastic article](https://afridi.dev/articles/organize-your-zsh-configurations-and-plugins/), and taken a little bit further
 
-- automated setups
-- customised configs
-- helper scripts
+I'd like to give credit to [this useful list of scripts](https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/) for the [emoji](.custom/scripts/emoji-selector.sh) and [http status](.custom/scripts/http-status.sh) scripts
+
+### Layout
+
+```mermaid
+treemap-beta
+"~/.custom"
+    "zshrc"
+        "plugins_extras": 1
+        "aliases": 1
+        "functions": 3
+        "exports": 1
+    "configs"
+        "starship": 2
+        "domain": 1
+        "orf": 1
+    "scripts"
+        "gradient": 2
+        "escape-url": 1
+        "emoji_selector": 1
+        "http_status": 1
+```
+
+## What do I need to use it?
+
+For this setup, I've made sure it's extra light and minimal
+
+You don't need anything except [oh-my-zsh](https://ohmyz.sh/) 😺
+
+### Prompt Customisation
+
+- [starship](https://starship.rs/)
+
+### Zsh Plugins
+
+- zsh-syntax-highlighting
+
+### CLI Tools
+
+Some [functions](.custom/zshrc/functions.zsh) and one [alias](.custom/zshrc/aliases.zsh) use the below here or there for now
+
+- [eza](https://github.com/eza-community/eza)
+- [jq](https://github.com/jqlang/jq)
+- [nushell](https://www.nushell.sh/) (as a subshell for pretty printing data structures)

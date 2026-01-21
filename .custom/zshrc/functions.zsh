@@ -2,6 +2,40 @@
 # so we can list them with the funcs function
 
 ### BLOCK START
+# upgrades everything - shorthand for pacman -Syu
+function upgrade {
+  sudo pacman -Syu
+}
+
+# check for any running pacman processes - useful for when lock file issues occur
+function pacstat {
+  pgrep --full --euid=0 "pacman" | while IFS= read -r pid; do
+    if [[ -e "/proc/${pid}/cmdline" ]]; then
+      tr '\0' ' ' < "/proc/${pid}/cmdline"
+      echo
+    fi
+  done
+}
+
+# enable wireguard based on the ~/.ssh/wg-up.sh file
+function wg-up {
+    bash ~/.ssh/wg-up.sh
+}
+
+# disable wireguard based on the ~/.ssh/wg-down.sh file
+function wg-down {
+    bash ~/.ssh/wg-down.sh
+}
+
+# start WinApps docker container
+function winapps-up() {
+  docker container start WinApps
+}
+
+# stop WinApps docker container
+function winapps-down() {
+  docker container stop WinApps
+}
 
 # git alias for fetch and pull
 function fnp {
@@ -14,10 +48,10 @@ function gitrh {
     git reset --hard origin/$currentbranch
 }
 
-# clone a repo based on the domain provided in ~/.custom/domain
+# clone a repo based on the domain provided in ~/.custom/configs/domain
 function clone {
   local full_repo_name=$(repo $1)
-	git clone $(cat ~/.custom/domain)/$full_repo_name.git
+	git clone $(cat ~/.custom/configs/domain)/$full_repo_name.git
 }
 
 # clone a repo based on a domain provided in the input
@@ -26,10 +60,10 @@ function cloned {
   git clone git@github.com:$1/$full_repo_name.git
 }
 
-# Opens a local repo/folder in VSCode based on a fuzzy search in the path defined in the ~/.custom/orf file
+# Opens a local repo/folder in VSCode based on a fuzzy search in the path defined in the ~/.custom/configs/orf file
 function orf() {
   local search_term="$1"
-  local search_dir=$(readlink -f "${HOME}${$(cat ~/.custom/orf)}")
+  local search_dir=$(readlink -f "${HOME}${$(cat ~/.custom/configs/orf)}")
 
   local results
   results=($(find "$search_dir" -mindepth 1 -maxdepth 2 -type d -iname "*${search_term}*" 2>/dev/null))
@@ -52,9 +86,9 @@ function orf() {
   fi
 }
 
-# get a repo based on input provided and a custom domain specified in the file ~/.custom/domain
+# get a repo based on input provided and a custom domain specified in the file ~/.custom/configs/domain
 function repo {
-    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
+    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/configs/domain | cut -d ":" -f2) --archived=false --json name | \
         jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
         fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
 
@@ -76,12 +110,12 @@ function repod {
 
 # browse a repo
 function repob {
-    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/domain | cut -d ":" -f2) --archived=false --json name | \
+    local selected_repo=$(gh search repos $1 --owner=$(cat ~/.custom/configs/domain | cut -d ":" -f2) --archived=false --json name | \
         jq -r ".[] | select((.name | ascii_downcase) | contains(\"${1}\")) | .name" | \
         fzf --height 40% --reverse --info hidden --no-color --prompt '' --pointer '▶')
 
     if [[ -n "$selected_repo" ]]; then
-        gh browse -R $(echo $(cat ~/.custom/domain)/$selected_repo.git)
+        gh browse -R $(echo $(cat ~/.custom/configs/domain)/$selected_repo.git)
     fi
 }
 
@@ -121,7 +155,7 @@ function goto() {
 
 # encode uri/url
 function escape() {
-  node -p "encodeURIComponent('$1')"
+  ~/.custom/scripts/escape-url/escape "$1"
 }
 
 # validate json
@@ -153,7 +187,7 @@ function vj() {
   fi
 }
 
-# reload the shell quickly
+# reload the shell
 function reload() {
     source ~/.zshrc
 }
@@ -188,19 +222,24 @@ function json() {
     nu -c "cat $1 | from json"
 }
 
-# render space delimited table with nushell
+# pretty print a space delimited table with nushell
 function table() {
     nu -c "$1 | from ssv"
 }
 
 # search for any emoji using words and get matching emojis back
 function emoji() {
-    bash ~/.custom/scripts/emoji_selector.sh $1
+    bash ~/.custom/scripts/emoji-selector.sh $1
 }
 
-# get all http statuses
-function httpstatus() {
-    bash ~/.custom/scripts/http_status.sh
+# get a http status code description
+function http() {
+    bash ~/.custom/scripts/http-status.sh | grep -i $1
+}
+
+# generate gradient text - first input is the text, second and third are the colours as hex strings
+function gradiate() {
+  ~/.custom/scripts/gradient/gradiate $1 $2 $3
 }
 
 # open zsh customisation files; use zedit help to get a list of available inputs

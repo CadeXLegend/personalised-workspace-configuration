@@ -1,0 +1,20 @@
+# ignore everything
+*
+
+# whitelist what we don't want to ignore
+!.gitignore
+!README.md
+!.zshrc
+!.custom/
+!.custom/**
+
+# believe it or not, this is actually necessary to reach a specific file
+# I tried doing it like just directly to the path, and it just doesn't work
+# it's like you have to flick a switch at each sub-tree
+!.config
+.config/*
+!.config/Code/
+.config/Code/*
+!.config/Code/User
+.config/Code/User/*
+!.config/Code/User/settings.json

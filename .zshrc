@@ -4,3 +4,7 @@
 [[ -f ~/.custom/zshrc/functions.zsh ]] && source ~/.custom/zshrc/functions.zsh
 [[ -f ~/.custom/zshrc/exports.zsh ]] && source ~/.custom/zshrc/exports.zsh
 # end load in custom stuff
+
+# display system information on startup
+# this is a cachyos specific feature
+fastfetch
