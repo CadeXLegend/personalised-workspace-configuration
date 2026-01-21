@@ -1,0 +1,11 @@
+{
+  "colours": {
+    "main_bg": "#240047",
+    "directory_gradient_end": "#ba40c5ff",
+    "time_gradient_start": "#4c2772ff",
+    "time_gradient_end": "#7c3083ff",
+    "directory": "#A74FFF",
+    "directory_gradient_start": "#371b52ff",
+    "git_branch": "#4FFFA7"
+  }
+}

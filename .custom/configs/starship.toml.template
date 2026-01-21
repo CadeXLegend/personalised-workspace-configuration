@@ -1,0 +1,41 @@
+# get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# inserts a blank line between shell prompts
+add_newline = true
+
+# this is how you want the prompt to look
+format = """
+[](fg:{{main_bg}})[ $git_branch${custom.directory_gradient}](fg:white bg:{{main_bg}})[](fg:{{main_bg}})
+$character"""
+
+right_format = """
+[](fg:{{main_bg}})[${custom.time_gradient}](bg:{{main_bg}})[](fg:{{main_bg}})
+"""
+
+[git_branch]
+style = "fg:{{git_branch}} bg:{{main_bg}}"
+disabled = false
+
+[directory]
+format = "in [$path]($style) "
+style = "fg:{{directory}} bg:{{main_bg}}"
+truncation_length = 0
+truncate_to_repo = false
+
+[character]
+success_symbol = ' [➜](fg:{{git_branch}})'
+
+[package]
+disabled = true
+
+[custom.time_gradient]
+command = '~/.custom/scripts/gradient/gradiate "at $(date +%H:%M:%S)" "{{time_gradient_start}}" "{{time_gradient_end}}"'
+when = "true"
+format = '$output '
+
+[custom.directory_gradient]
+command = '~/.custom/scripts/gradient/gradiate --anchor-right --max-length 30 "${PWD/#$HOME/~} " "{{directory_gradient_start}}" "{{directory_gradient_end}}"'
+when = "true"
+format = 'in $output'
+

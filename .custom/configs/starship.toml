@@ -38,3 +38,4 @@ format = '$output '
 command = '~/.custom/scripts/gradient/gradiate --anchor-right --max-length 30 "${PWD/#$HOME/~} " "#371b52ff" "#ba40c5ff"'
 when = "true"
 format = 'in $output'
+

@@ -271,6 +271,27 @@ function zedit {
     esac
 }
 
+# manage starship theme colors - usage: stardust <command> [args]
+function stardust {
+  local stardust_bin="$HOME/.custom/scripts/stardust/stardust"
+
+  case "$1" in
+    generate|list|get|set)
+      $stardust_bin "$@"
+      ;;
+    edit)
+      code "$HOME/.config/stardust-template-params.json"
+      ;;
+    setg)
+      $stardust_bin set $2 $3
+      $stardust_bin generate
+      ;;
+    *)
+      $stardust_bin
+      ;;
+  esac
+}
+
 # extract a markdown section from all markdown files in the current directory and subdirectories
 function smdr {
   local heading="$1"
