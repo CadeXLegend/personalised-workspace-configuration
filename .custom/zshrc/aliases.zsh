@@ -1,6 +1,9 @@
 # Aliases - you can view all aliases by running `alias` in the terminal
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# return back to the previous directory before the last cd
+alias back='cd -'
+
 # overrides ls to provide a customised directory view
 alias ls='eza -L 1 -l --icons --no-permissions --no-user --no-time -T'
 
