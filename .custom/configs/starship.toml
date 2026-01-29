@@ -6,12 +6,8 @@ add_newline = true
 
 # this is how you want the prompt to look
 format = """
-[](fg:#240047)[ $git_branch${custom.directory_gradient}](fg:white bg:#240047)[](fg:#240047)
+[](fg:#240047)[ $git_branch${custom.directory_gradient}](fg:white bg:#240047)[](fg:#240047)$fill[](fg:#240047)[${custom.time_gradient}](bg:#240047)[](fg:#240047)
 $character"""
-
-right_format = """
-[](fg:#240047)[${custom.time_gradient}](bg:#240047)[](fg:#240047)
-"""
 
 [git_branch]
 style = "fg:#4FFFA7 bg:#240047"
