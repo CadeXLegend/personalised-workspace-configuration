@@ -1,13 +1,21 @@
 # get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# inserts a blank line between shell prompts
-add_newline = true
-
 # this is how you want the prompt to look
-format = """
-[](fg:#240047)[ $git_branch${custom.directory_gradient}](fg:white bg:#240047)[](fg:#240047)$fill[](fg:#240047)[${custom.time_gradient}](bg:#240047)[](fg:#240047)
-$character"""
+format = "$line_break[](fg:#240047)[ $git_branch${custom.directory_gradient}](fg:white bg:#240047)[](fg:#240047)$fill[](fg:#240047)[${custom.time_gradient}](bg:#240047)[](fg:#240047)$line_break$character"
+
+# unset right format
+right_format = ""
+# setup manual newlines
+add_newline = false
+
+[line_break]
+# Prompt is one line, not two lines
+disabled = false
+
+[fill]
+symbol=" "
+disabled = false
 
 [git_branch]
 style = "fg:#4FFFA7 bg:#240047"
