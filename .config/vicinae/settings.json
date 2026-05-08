@@ -10,9 +10,9 @@
 
 {
    "$schema": "https://vicinae.com/schemas/config.json",
-   "escape_key_behavior": "close_window",
    "close_on_focus_loss": true,
    "pop_to_root_on_close": true,
+   "escape_key_behavior": "close_window",
    "theme": {
       "dark": {
          "name": "vicinae-dark"
@@ -22,9 +22,12 @@
       "opacity": 1
    },
    "favorites": [
-      "@CadeXLegend/simple-date-time:clock",
+      "@rithvikvibhu/store.vicinae.arch-packages:search-arch-packages",
+      "@leonkohli/store.vicinae.process-manager:processes",
+      "@Gelei/store.vicinae.bluetooth:devices",
       "clipboard:history"
    ],
+   "fallbacks": [],
    "providers": {
       "calculator": {
          "preferences": {
