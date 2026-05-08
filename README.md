@@ -1,6 +1,11 @@
 # Personalised Workspace Configuration
 
 > [!IMPORTANT]
+> Use this as the meta key function to have the clock toast appear on launch
+>
+> vicinae toggle && vicinae vicinae://launch/@CadeXLegend/simple-date-time/clock
+
+> [!IMPORTANT]
 > This should be cloned and unpacked into your home directory
 >
 > It has a gitignore configured to work in `~`
