@@ -7,4 +7,6 @@
 !.zshrc
 !.custom/
 !.custom/**
+!.config/
+!.config/vicinae/
 !.config/vicinae/settings.json
