@@ -1,5 +1,6 @@
 import { Action, ActionPanel, List } from "@vicinae/api";
 import { ChildProcess, exec } from "node:child_process";
+import { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -30,34 +31,46 @@ async function findRepos(
 	const firstLevel = await fs.readdir(baseDir, { withFileTypes: true });
 
 	const allFirstLevelDirs = firstLevel
-		.filter((d) => d.isDirectory() && !d.name.startsWith(".") && !d.name.startsWith("_"))
-		.map((d) => path.join(baseDir, d.name));
+		.filter((d: Dirent<string>) => d.isDirectory() && !d.name.startsWith(".") && !d.name.startsWith("_"))
+		.map((d: Dirent<string>) => path.join(baseDir, d.name));
 
 	const matchesAtFirstLevel = allFirstLevelDirs
-		.filter((p) => {
+		.filter((p: string) => {
 			const name = path.basename(p);
 			return name.toLowerCase().includes(safeTerm);
 		});
 
 	const matchesAtSecondLevel = await Promise.all(
-		allFirstLevelDirs.map(async (dir1Path) => {
+		allFirstLevelDirs.map(async (dir1Path: string) => {
 			const secondLevel = await fs.readdir(dir1Path, {
 				withFileTypes: true,
 			});
 			return secondLevel
-				.filter((d) => d.isDirectory() && !d.name.startsWith(".") && !d.name.startsWith("_"))
-				.map((d) => path.join(dir1Path, d.name))
-				.filter((p) => {
+				.filter((d: Dirent<string>) => d.isDirectory() && !d.name.startsWith(".") && !d.name.startsWith("_"))
+				.map((d: Dirent<string>) => path.join(dir1Path, d.name))
+				.filter((p: string) => {
 					const name = path.basename(p);
 					return name.toLowerCase().includes(safeTerm);
 				});
 		}),
 	);
 
-	return Object.freeze([
+	const allCandidates = [
 		...matchesAtFirstLevel,
 		...matchesAtSecondLevel.flat(),
-	]);
+	];
+
+	const withGit = await Promise.all(
+		allCandidates.map(async (p: string) => {
+			const hasGit = await fs
+				.access(path.join(p, ".git"))
+				.then(() => true)
+				.catch(() => false);
+			return hasGit ? p : null;
+		}),
+	);
+
+	return Object.freeze(withGit.filter((p: string | null): p is string => p !== null));
 }
 
 async function openRepoInCode(_repoPath: string): Promise<void> {
@@ -95,7 +108,7 @@ function ReposResults({
 
 	return (
 		<List.Section title="Results" key={searchTerm}>
-			{repos.map((repoPath) => {
+			{repos.map((repoPath: string) => {
 				const title = path.basename(repoPath);
 				return (
 					<List.Item
