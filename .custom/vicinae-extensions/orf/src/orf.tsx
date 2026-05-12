@@ -29,16 +29,18 @@ async function findRepos(
 
 	const firstLevel = await fs.readdir(baseDir, { withFileTypes: true });
 
-	const matchesAtFirstLevel = firstLevel
+	const allFirstLevelDirs = firstLevel
 		.filter((d) => d.isDirectory() && !d.name.startsWith(".") && !d.name.startsWith("_"))
-		.map((d) => path.join(baseDir, d.name))
+		.map((d) => path.join(baseDir, d.name));
+
+	const matchesAtFirstLevel = allFirstLevelDirs
 		.filter((p) => {
 			const name = path.basename(p);
 			return name.toLowerCase().includes(safeTerm);
 		});
 
 	const matchesAtSecondLevel = await Promise.all(
-		matchesAtFirstLevel.map(async (dir1Path) => {
+		allFirstLevelDirs.map(async (dir1Path) => {
 			const secondLevel = await fs.readdir(dir1Path, {
 				withFileTypes: true,
 			});
