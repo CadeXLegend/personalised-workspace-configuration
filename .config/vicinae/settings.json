@@ -22,6 +22,7 @@
       "opacity": 1
    },
    "favorites": [
+      "@CadeXLegend/anime-tracker:anime-tracker",
       "@rithvikvibhu/store.vicinae.arch-packages:search-arch-packages",
       "@leonkohli/store.vicinae.process-manager:processes",
       "@Gelei/store.vicinae.bluetooth:devices",
