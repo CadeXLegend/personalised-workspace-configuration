@@ -17,6 +17,8 @@ type BrowseViewProps = {
   readonly onAdd: () => void;
   readonly onInspect: (anilistId: number) => void;
   readonly onWatch: (entry: WatchlistEntry) => void;
+  readonly onCycleSort: () => void;
+  readonly sortLabel: string;
 };
 
 export function BrowseView({
@@ -28,6 +30,8 @@ export function BrowseView({
   onAdd,
   onInspect,
   onWatch,
+  onCycleSort,
+  sortLabel,
 }: BrowseViewProps) {
   if (watchlist.entries.length === 0) return null;
 
@@ -51,6 +55,12 @@ export function BrowseView({
           ]}
           actions={
             <ActionPanel>
+              <Action
+                title={`Sort: ${sortLabel}`}
+                icon={Icon.Switch}
+                shortcut={{ key: "o", modifiers: ["ctrl"] }}
+                onAction={onCycleSort}
+              />
               <Action
                 title="Inspect"
                 icon={Icon.Eye}

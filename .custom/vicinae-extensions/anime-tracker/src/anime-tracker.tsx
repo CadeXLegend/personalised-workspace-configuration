@@ -11,8 +11,22 @@ import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ViewMode } from "./view-mode";
-import type { WatchlistData, AniListMedia, WatchStatus, WatchlistEntry } from "./types";
+import { STATUS_LABELS, STATUS_ORDER, type WatchStatus } from "./status";
+
+type ViewFilter = WatchStatus | "all";
+
+type SortOrder = "default" | "status:asc" | "status:desc" | "title:asc" | "title:desc";
+
+const SORT_ORDERS: ReadonlyArray<{ readonly value: SortOrder; readonly label: string }> = Object.freeze([
+  { value: "default", label: "Default" },
+  { value: "status:asc", label: "Status ↑" },
+  { value: "status:desc", label: "Status ↓" },
+  { value: "title:asc", label: "Title ↑" },
+  { value: "title:desc", label: "Title ↓" },
+]);
+import type { WatchlistData, AniListMedia, WatchlistEntry } from "./types";
 import { loadWatchlist, saveWatchlist } from "./data/watchlist";
+import { loadCustomisations, saveCustomisations } from "./data/customisations";
 import { searchAniList } from "./services/anilist";
 import { getNextEpisodeUrl } from "./services/anikotv";
 import { displayTitle, nextStatus } from "./utils/display";
@@ -54,6 +68,12 @@ export default function AnimeTrackerCommand() {
   const [inspectingId, setInspectingId] = useState<number | undefined>(
     undefined,
   );
+  const [viewFilter, setViewFilter] = useState<ViewFilter>(
+    () => loadCustomisations().viewFilter as ViewFilter,
+  );
+  const [sortOrder, setSortOrder] = useState<SortOrder>(
+    () => loadCustomisations().sortOrder as SortOrder,
+  );
 
   const justSwitchedRef = useRef(false);
 
@@ -61,7 +81,8 @@ export default function AnimeTrackerCommand() {
 
   useEffect(() => {
     saveWatchlist(watchlist);
-  }, [watchlist]);
+    saveCustomisations({ viewFilter, sortOrder });
+  }, [watchlist, viewFilter, sortOrder]);
 
   useEffect(() => {
     for (const entry of watchlist.entries) {
@@ -242,6 +263,13 @@ export default function AnimeTrackerCommand() {
     });
   }, []);
 
+  const cycleSortOrder = useCallback(() => {
+    setSortOrder((prev) => {
+      const idx = SORT_ORDERS.findIndex((o) => o.value === prev);
+      return SORT_ORDERS[(idx + 1) % SORT_ORDERS.length]?.value ?? "default";
+    });
+  }, []);
+
   // ── Search bar ─────────────────────────────────────────────────────
 
   const handleSearchChange = useCallback(
@@ -277,7 +305,7 @@ export default function AnimeTrackerCommand() {
           description={
             searchError ?? "Type an anime title to search and add to your watchlist"
           }
-          icon={searchError ? Icon.ExclamationMark : Icon.MagnifyingGlass}
+          icon={searchError ? Icon.Exclamationmark : Icon.MagnifyingGlass}
         />
       );
     }
@@ -330,11 +358,22 @@ export default function AnimeTrackerCommand() {
   }
 
   if (mode === ViewMode.Browse) {
+    const filteredEntries =
+      viewFilter === "all"
+        ? watchlist.entries
+        : watchlist.entries.filter((e) => e.status === viewFilter);
+
+    const sortedEntries = sortEntries(filteredEntries, sortOrder);
+
+    const filteredWatchlist = {
+      entries: sortedEntries,
+      updatedAt: watchlist.updatedAt,
+    };
+
     return (
       <Grid
         searchBarPlaceholder={placeholder}
         isLoading={isLoading}
-        throttle
         filtering
         searchText={searchText}
         onSearchTextChange={handleSearchChange}
@@ -342,6 +381,24 @@ export default function AnimeTrackerCommand() {
         columns={4}
         aspectRatio="2/3"
         fit={Grid.Fit.Fill}
+        searchBarAccessory={
+          <Grid.Dropdown
+            tooltip="Filter by status"
+            value={viewFilter}
+            onChange={(v) => setViewFilter(v as ViewFilter)}
+          >
+            <Grid.Dropdown.Item title="All" value="all" />
+            <Grid.Dropdown.Section title="Status">
+              {STATUS_ORDER.map((s) => (
+                <Grid.Dropdown.Item
+                  key={s}
+                  title={STATUS_LABELS[s]}
+                  value={s}
+                />
+              ))}
+            </Grid.Dropdown.Section>
+          </Grid.Dropdown>
+        }
         actions={
           <ActionPanel>
             <Action
@@ -355,7 +412,7 @@ export default function AnimeTrackerCommand() {
       >
         {emptyView}
         <BrowseView
-          watchlist={watchlist}
+          watchlist={filteredWatchlist}
           onIncrement={incrementEpisode}
           onDecrement={decrementEpisode}
           onCycleStatus={cycleStatus}
@@ -363,6 +420,8 @@ export default function AnimeTrackerCommand() {
           onAdd={enterSearchMode}
           onInspect={enterInspectMode}
           onWatch={watchOnAnikoTV}
+          onCycleSort={cycleSortOrder}
+          sortLabel={SORT_ORDERS.find((o) => o.value === sortOrder)?.label ?? "Default"}
         />
       </Grid>
     );
@@ -388,5 +447,34 @@ export default function AnimeTrackerCommand() {
       />
     </List>
   );
+}
+
+// ---------------------------------------------------------------------------
+// Sort logic
+// ---------------------------------------------------------------------------
+
+function sortEntries(
+  entries: ReadonlyArray<WatchlistEntry>,
+  order: SortOrder,
+): ReadonlyArray<WatchlistEntry> {
+  if (order === "default") return entries;
+
+  const sorted = [...entries];
+
+  if (order === "status:asc") {
+    sorted.sort(
+      (a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status),
+    );
+  } else if (order === "status:desc") {
+    sorted.sort(
+      (a, b) => STATUS_ORDER.indexOf(b.status) - STATUS_ORDER.indexOf(a.status),
+    );
+  } else if (order === "title:asc") {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (order === "title:desc") {
+    sorted.sort((a, b) => b.title.localeCompare(a.title));
+  }
+
+  return Object.freeze(sorted);
 }
 
