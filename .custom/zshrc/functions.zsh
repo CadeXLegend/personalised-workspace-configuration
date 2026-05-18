@@ -11,26 +11,6 @@ function pacstat {
   done
 }
 
-# enable wireguard based on the ~/.ssh/wg-up.sh file
-function wg-up {
-    bash ~/.ssh/wg-up.sh
-}
-
-# disable wireguard based on the ~/.ssh/wg-down.sh file
-function wg-down {
-    bash ~/.ssh/wg-down.sh
-}
-
-# start WinApps docker container
-function winapps-up {
-  docker container start WinApps
-}
-
-# stop WinApps docker container
-function winapps-down {
-  docker container stop WinApps
-}
-
 # git alias for fetch and pull
 function fnp {
 	git fetch && git pull
@@ -219,11 +199,6 @@ function json {
 # pretty print a space delimited table with nushell
 function table {
     nu -c "$1 | from ssv"
-}
-
-# search for any emoji using words and get matching emojis back
-function emoji {
-    bash ~/.custom/scripts/emoji-selector.sh $1
 }
 
 # get a http status code description

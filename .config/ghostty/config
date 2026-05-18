@@ -1,0 +1,28 @@
+command = /usr/bin/zsh -l
+
+# Sweet-Rainbow palette — deep purple base with pink/rainbow accents
+background = #171421
+background-opacity = 0.88
+foreground = #f8f8f2
+window-theme = system
+
+palette = 0=#1b1b2f
+palette = 1=#ff5555
+palette = 2=#50fa7b
+palette = 3=#ffb86c
+palette = 4=#8be9fd
+palette = 5=#ff79c6
+palette = 6=#8be9fd
+palette = 7=#bfbfbf
+palette = 8=#4d4d68
+palette = 9=#ff6e67
+palette = 10=#5af78e
+palette = 11=#ffb86c
+palette = 12=#8be9fd
+palette = 13=#ff92d0
+palette = 14=#9aedfe
+palette = 15=#f8f8f2
+
+cursor-color = #ff79c6
+selection-background = #bd93f9
+selection-foreground = #f8f8f2

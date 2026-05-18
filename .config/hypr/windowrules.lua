@@ -1,0 +1,24 @@
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                      Window Rules (v2)                       ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+-- All windows float (never tiled); use SUPER+F to maximize.
+hl.window_rule({
+    name       = "default-float",
+    match      = { class = ".*" },
+    float      = true,
+})
+
+-- Disable rounding on fullscreen windows
+hl.window_rule({
+    name       = "nofullscreen-rounding",
+    match      = { class = ".*", fullscreen = true },
+    rounding   = 0,
+})
+
+-- VSCode transparency + blur
+hl.window_rule({
+    name       = "code-transparent",
+    match      = { class = "^(code-oss|Code|VSCodium)$" },
+    opacity    = "0.92 0.88",
+})

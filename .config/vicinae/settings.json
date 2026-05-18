@@ -15,14 +15,19 @@
    "escape_key_behavior": "close_window",
    "theme": {
       "dark": {
-         "name": "vicinae-dark"
+         "name": "sweet-rainbow",
+         "icon_theme": "candy-icons"
       }
    },
    "launcher_window": {
-      "opacity": 1
+      "opacity": 0.88,
+      "client_side_decorations": {
+         "enabled": true
+      }
    },
    "favorites": [
       "@CadeXLegend/anime-tracker:anime-tracker",
+      "applications:cachyos-pi",
       "@rithvikvibhu/store.vicinae.arch-packages:search-arch-packages",
       "@leonkohli/store.vicinae.process-manager:processes",
       "@Gelei/store.vicinae.bluetooth:devices",
@@ -39,6 +44,14 @@
             "refresh-rates": {
                "enabled": false
             }
+         }
+      },
+      "clipboard": {
+         "preferences": {
+            "encryption": false,
+            "eraseOnStartup": false,
+            "ignorePasswords": false,
+            "monitoring": true
          }
       }
    }

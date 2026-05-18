@@ -1,0 +1,24 @@
+# Sweet-Rainbow mako notification config
+# Matches the deep purple + pink accent palette
+
+background-color=#171421e0
+text-color=#F8F8F2
+border-color=#FF79C6
+border-radius=12
+border-size=1
+
+default-timeout=10000
+width=320
+height=80
+margin=8
+padding=12
+
+font=monospace 11
+max-visible=5
+
+[urgency=high]
+border-color=#FF5555
+background-color=#1b1b2fe0
+
+[urgency=low]
+border-color=#BD93F9
