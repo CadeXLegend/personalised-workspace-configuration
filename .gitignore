@@ -12,6 +12,8 @@
 !.config/
 !.config/vicinae/
 !.config/vicinae/**
+!.config/ksnip/
+!.config/ksnip/ksnip.conf
 !.config/hypr/
 !.config/hypr/**
 !.config/ghostty/
