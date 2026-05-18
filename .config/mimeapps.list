@@ -22,6 +22,7 @@ text/vnd.trolltech.linguist=code-oss.desktop;linguist.desktop;brave-browser.desk
 video/mkv=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
 video/mp4=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
 video/webm=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
+video/x-matroska=haruna-3.desktop;/home/cade/.local/share/applications/haruna-2.desktop;
 
 [Default Applications]
 application/pdf=brave-browser.desktop
@@ -47,5 +48,6 @@ text/vnd.trolltech.linguist=code-oss.desktop
 video/mkv=org.kde.haruna.desktop
 video/mp4=org.kde.haruna.desktop
 video/webm=org.kde.haruna.desktop
+video/x-matroska=haruna-3.desktop;
 x-scheme-handler/http=brave-browser.desktop
 x-scheme-handler/https=brave-browser.desktop

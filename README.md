@@ -117,6 +117,8 @@ See [Prerequisites](#prerequisites) for required tools
 | What | Path |
 |---|---|
 | ksnip screenshot tool | `.config/ksnip/ksnip.conf` |
+| Haruna video player | `.config/haruna/haruna.conf` |
+| MPV media player | `.config/mpv/mpv.conf` |
 | Github domain config | `.custom/configs/domain` |
 | Open repo folder config | `.custom/configs/orf` |
 | Stardust template params | `.custom/configs/stardust-template-params.json` |

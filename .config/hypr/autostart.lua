@@ -61,7 +61,7 @@ hl.on("hyprland.start", function()
 
     -- Apps
     hl.exec_cmd("ghostty")
-    hl.exec_cmd("brave")
+    hl.exec_cmd("brave --enable-features=VaapiVideoDecodeLinuxGL,VaapiIgnoreDriverChecks --disable-features=UseChromeOSDirectVideoDecoder")
     hl.exec_cmd("discord")
     hl.exec_cmd("steam")
 end)

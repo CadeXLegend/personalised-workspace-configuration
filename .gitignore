@@ -21,6 +21,10 @@
 !.config/ghostty/**
 !.config/mako/
 !.config/mako/config
+!.config/haruna/
+!.config/haruna/**
+!.config/mpv/
+!.config/mpv/**
 !.local/
 !.local/share/
 !.local/share/vicinae/
