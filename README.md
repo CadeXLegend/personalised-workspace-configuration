@@ -120,6 +120,7 @@ See [Prerequisites](#prerequisites) for required tools
 | Github domain config | `.custom/configs/domain` |
 | Open repo folder config | `.custom/configs/orf` |
 | Stardust template params | `.custom/configs/stardust-template-params.json` |
+| MIME type associations | `.config/mimeapps.list` |
 
 ### Anime Tracker Data
 
