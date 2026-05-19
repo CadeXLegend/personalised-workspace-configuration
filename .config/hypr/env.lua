@@ -2,10 +2,12 @@
 -- ┃                   Environment Variables                     ┃
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
--- NVIDIA
-hl.env("LIBVA_DRIVER_NAME", "iHD")
+-- NVIDIA (Wayland stability)
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("GBM_BACKEND", "nvidia-drm")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 hl.env("NVD_BACKEND", "direct")
+hl.env("WLR_NO_HARDWARE_CURSORS", "1")
 
 -- Cursor
 hl.env("HYPRCURSOR_SIZE", "24")
