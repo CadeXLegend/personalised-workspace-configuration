@@ -55,6 +55,16 @@ See [Prerequisites](#prerequisites) for required tools
 | Vicinae integration | `.config/hypr/vicinae.lua` |
 | Window maximize script | `.config/hypr/scripts/maximize.sh` |
 | Window snap script | `.config/hypr/scripts/snap.sh` |
+| Lock script | `.config/hypr/scripts/lock.sh` |
+
+### Screen Locker: Swaylock
+
+| What | Path |
+|---|---|
+| Swaylock config (Sweet-Rainbow) | `.config/swaylock/config` |
+| Polygon glass shader effect | `.config/swaylock/effects/polygon_wall.c` |
+
+Screenshots are captured, blurred, then processed through a custom Delaunay triangulation shader that displaces pixels across triangular glass facets. A per-vertex greyscale gradient adds visibility in uniform-colour regions. See `lock.sh` for the full pipeline.
 
 ### Terminal: Ghostty
 

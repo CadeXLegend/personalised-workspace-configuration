@@ -101,7 +101,7 @@ hl.bind("XF86MonBrightnessDown",
 -- ── Screen lock ──
 
 hl.bind(mainMod .. " + L",
-    hl.dsp.exec_cmd("swaylock-fancy -e -K -p 10 -f Hack-Regular"),
+    hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/lock.sh -f"),
     { desc = "Lock screen" })
 
 -- ── Reload waybar ──

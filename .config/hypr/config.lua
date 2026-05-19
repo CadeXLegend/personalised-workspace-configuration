@@ -37,18 +37,18 @@ hl.config({
     },
 
     group = {
-        ["col.border_active"]          = cachydgreen,
-        ["col.border_inactive"]        = cachylgreen,
-        ["col.border_locked_active"]   = cachymgreen,
-        ["col.border_locked_inactive"] = cachydblue,
+        ["col.border_active"]          = pink,
+        ["col.border_inactive"]        = greyDim,
+        ["col.border_locked_active"]   = grey,
+        ["col.border_locked_inactive"] = bgDim,
 
         groupbar = {
             font_family             = "Fira Sans",
-            text_color              = cachydblue,
-            ["col.active"]          = cachydgreen,
-            ["col.inactive"]        = cachylgreen,
-            ["col.locked_active"]   = cachymgreen,
-            ["col.locked_inactive"] = cachydblue,
+            text_color              = fg,
+            ["col.active"]          = pink,
+            ["col.inactive"]        = greyDim,
+            ["col.locked_active"]   = grey,
+            ["col.locked_inactive"] = bgDim,
         },
     },
 
@@ -57,8 +57,8 @@ hl.config({
         splash_font_family    = "Fira Sans",
         disable_hyprland_logo = true,
         force_default_wallpaper = -1,
-        ["col.splash"]        = cachylgreen,
-        background_color      = cachydblue,
+        ["col.splash"]        = pink,
+        background_color      = bg,
         enable_swallow        = true,
         swallow_regex         = "^(nautilus|nemo|thunafr|btrfs-assistant.)$",
         focus_on_activate     = true,

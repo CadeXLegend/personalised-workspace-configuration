@@ -54,7 +54,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user start graphical-session.target")
 
     -- Idle handler
-    hl.exec_cmd("swayidle -w timeout 300 'swaylock -f -c 000000' before-sleep 'swaylock -f -c 000000'")
+    hl.exec_cmd("swayidle -w timeout 300 '~/.config/hypr/scripts/lock.sh -f' before-sleep '~/.config/hypr/scripts/lock.sh -f'")
 
     -- Snappy Switcher daemon (wrapper waits for Hyprland + auto-restarts on crash)
     hl.exec_cmd("SNAPPY_BINARY=/usr/bin/snappy-switcher snappy-wrapper")

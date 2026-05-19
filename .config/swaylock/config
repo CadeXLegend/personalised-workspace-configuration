@@ -1,0 +1,54 @@
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃               Sweet-Rainbow Swaylock Config                 ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+# ── Background (crisp wallpaper, no effects) ──
+image=/home/cade/.custom/wallpapers/1378781.png
+scaling=fill
+
+# ── Indicator geometry ──
+indicator-radius=100
+indicator-thickness=6
+
+# ── Ring (outer arc) — Sweet-Rainbow pink, ~80% opacity ──
+ring-color=ff79c6cc
+ring-clear-color=bd93f9cc
+ring-ver-color=50fa7bcc
+ring-wrong-color=ff5555cc
+ring-caps-lock-color=ffb86ccc
+
+# ── Inside (glass effect — transparent dark tint) ──
+inside-color=17142130
+inside-clear-color=17142125
+inside-ver-color=17142140
+inside-wrong-color=1b1b2f30
+inside-caps-lock-color=1b1b2f30
+
+# ── Key highlight segments ──
+key-hl-color=ff79c6ff
+bs-hl-color=ff5555ff
+caps-lock-key-hl-color=ffb86cff
+caps-lock-bs-hl-color=ff5555ff
+
+# ── Line between ring and inside (subtle) ──
+line-color=bd93f920
+line-clear-color=bd93f918
+line-ver-color=bd93f930
+line-wrong-color=ff555530
+line-caps-lock-color=ffb86c30
+
+# ── Text ──
+text-color=f8f8f2ff
+font=JetBrainsMono Nerd Font
+font-size=22
+
+# ── Layout indicator ──
+layout-bg-color=17142160
+layout-border-color=ff79c640
+layout-text-color=f8f8f2ff
+
+# ── Behaviour ──
+indicator-idle-visible
+show-failed-attempts
+fade-in=0.1
+ignore-empty-password
