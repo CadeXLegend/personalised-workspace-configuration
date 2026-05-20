@@ -5,7 +5,7 @@ import {
   Icon,
   List,
 } from "@vicinae/api";
-import { spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { patterns } from "./regex-patterns";
 
@@ -122,30 +122,47 @@ type CurlSuccess = { readonly ok: true; readonly body: string };
 type CurlError = { readonly ok: false; readonly error: string };
 type CurlResult = CurlSuccess | CurlError;
 
-/** Fetches a URL via `curl` using spawnSync for clean error-as-value handling */
-function curlGet(url: string): CurlResult {
-  const result = spawnSync("curl", [
-    "-sS",
-    "--max-time", "15",
-    "-H", "User-Agent: vicinae-nyaa-extension/1.0",
-    url,
-  ], {
-    encoding: "utf-8",
-    timeout: 15_000,
+/** runs a child process asynchronously and collects stdout/stderr */
+function spawnAsync(
+  cmd: string,
+  args: readonly string[],
+  timeout: number,
+): Promise<{ status: number | null; stdout: string; stderr: string }> {
+  return new Promise((resolve) => {
+    execFile(cmd, args, { timeout, maxBuffer: 2 * 1024 * 1024 }, (error, stdout, stderr) => {
+      resolve({
+        status: error ? Number((error as NodeJS.ErrnoException).code) || 1 : 0,
+        stdout: stdout || "",
+        stderr: stderr || "",
+      });
+    });
   });
-
-  if (result.status !== 0) {
-    const stderr = result.stderr ?? "";
-    const error = stderr.trim() || "Failed to fetch";
-    return { ok: false, error };
-  }
-
-  return { ok: true, body: result.stdout ?? "" };
 }
 
-function fetchSearch(query: string): FetchResult {
+/** Fetches a URL via `curl` asynchronously with clean error-as-value handling */
+async function curlGet(url: string): Promise<CurlResult> {
+  try {
+    const result = await spawnAsync("curl", [
+      "-sS",
+      "--max-time", "15",
+      "-H", "User-Agent: vicinae-nyaa-extension/1.0",
+      url,
+    ], 15_000);
+
+    if (result.status !== 0) {
+      const error = result.stderr.trim() || "Failed to fetch";
+      return { ok: false, error };
+    }
+
+    return { ok: true, body: result.stdout };
+  } catch {
+    return { ok: false, error: "Failed to fetch" };
+  }
+}
+
+async function fetchSearch(query: string): Promise<FetchResult> {
   const url = `${NYAA_RSS_BASE}&q=${encodeURIComponent(query)}`;
-  const curlResult = curlGet(url);
+  const curlResult = await curlGet(url);
 
   if (!curlResult.ok) {
     return { ok: false, error: curlResult.error };
@@ -206,7 +223,7 @@ function categoryIcon(category: string): Icon {
   if (lower.includes("audio") || lower.includes("music")) return Icon.Music;
   if (lower.includes("literature") || lower.includes("book")) return Icon.Book;
   if (lower.includes("software") || lower.includes("game")) return Icon.GameController;
-  return Icon.Document;
+  return Icon.BlankDocument;
 }
 
 // ---------------------------------------------------------------------------
@@ -229,19 +246,23 @@ export default function NyaaCommand() {
       return;
     }
 
+    let cancelled = false;
     setIsLoading(true);
     setError(undefined);
 
-    const result = fetchSearch(trimmed);
+    void fetchSearch(trimmed).then((result) => {
+      if (cancelled) return;
+      setIsLoading(false);
 
-    setIsLoading(false);
+      if (result.ok) {
+        setItems(result.items);
+      } else {
+        setItems(Object.freeze([]));
+        setError(result.error);
+      }
+    });
 
-    if (result.ok) {
-      setItems(result.items);
-    } else {
-      setItems(Object.freeze([]));
-      setError(result.error);
-    }
+    return () => { cancelled = true; };
   }, [searchText]);
 
   const handleSearchChange = useCallback((text: string) => {
@@ -257,7 +278,7 @@ export default function NyaaCommand() {
             error ??
             "Type a keyword to search for torrents on nyaa.si"
           }
-          icon={error ? Icon.ExclamationMark : Icon.MagnifyingGlass}
+          icon={error ? Icon.Exclamationmark : Icon.MagnifyingGlass}
         />
       ) : undefined,
     [isLoading, items.length, error],
@@ -331,7 +352,7 @@ export default function NyaaCommand() {
                   <Action.OpenInBrowser
                     title="Open in Browser"
                     url={item.viewUrl}
-                    icon={Icon.Globe}
+                    icon={Icon.Globe01}
                   />
                 </ActionPanel>
               }
