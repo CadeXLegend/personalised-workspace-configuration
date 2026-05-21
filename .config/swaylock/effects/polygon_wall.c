@@ -221,6 +221,15 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
         }
     }
 
+    for (int x = 0; x < width; x++) {
+        data[x] = data[width + x];
+        data[(height - 1) * width + x] = data[(height - 2) * width + x];
+    }
+    for (int y = 0; y < height; y++) {
+        data[y * width] = data[y * width + 1];
+        data[y * width + width - 1] = data[y * width + width - 2];
+    }
+
     free(src);
     free(tris);
 }
