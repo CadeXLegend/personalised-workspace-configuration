@@ -1,5 +1,5 @@
 [Added Associations]
-application/pdf=brave-browser.desktop;krita_pdf.desktop;
+application/pdf=zen.desktop;krita_pdf.desktop;
 application/x-7z-compressed=org.kde.ark.desktop;
 application/x-rar=org.kde.ark.desktop;
 application/x-tar=org.kde.ark.desktop;
@@ -16,9 +16,9 @@ image/svg+xml=org.kde.gwenview.desktop;
 image/tiff=org.kde.gwenview.desktop;
 image/webp=org.kde.gwenview.desktop;
 text/csv=org.kde.kate.desktop;krita_csv.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;
-text/html=org.kde.kate.desktop;brave-browser.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;zen.desktop;
+text/html=org.kde.kate.desktop;zen.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;
 text/plain=org.kde.kate.desktop;code-oss.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;
-text/vnd.trolltech.linguist=code-oss.desktop;linguist.desktop;brave-browser.desktop;org.kde.kate.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;
+text/vnd.trolltech.linguist=code-oss.desktop;linguist.desktop;zen.desktop;org.kde.kate.desktop;org.kde.kwrite.desktop;micro.desktop;vim.desktop;
 video/mkv=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
 video/mp4=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
 video/webm=org.kde.haruna.desktop;mpv.desktop;vlc.desktop;
@@ -34,7 +34,7 @@ application/x-extension-xhtml=zen.desktop;
 application/x-extension-xht=zen.desktop;
 
 [Default Applications]
-application/pdf=brave-browser.desktop
+application/pdf=zen.desktop
 application/x-7z-compressed=org.kde.ark.desktop
 application/x-rar=org.kde.ark.desktop
 application/x-tar=org.kde.ark.desktop

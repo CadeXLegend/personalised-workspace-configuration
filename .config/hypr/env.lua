@@ -21,5 +21,8 @@ hl.env("QT_ICON_THEME", "Sweet-Rainbow")
 -- GTK theming
 hl.env("GTK_THEME", "Breeze-Dark")
 
+-- KDE app menu prefix (fixes Dolphin "Open With" dialog)
+hl.env("XDG_MENU_PREFIX", "arch-")
+
 -- Electron Wayland
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
