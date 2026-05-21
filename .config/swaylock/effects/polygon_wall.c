@@ -168,13 +168,26 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
         float nz = tris[ti].nz;
         float displace_scale = (1.0f - fabsf(nz)) * 0.6f + 0.08f;
 
+        float area = 0.5f * fabsf((float)(dx01 * (v2->y - v0->y) - dy01 * (v2->x - v0->x)));
+        float len01 = sqrtf((float)(dx01*dx01 + dy01*dy01));
+        float len12 = sqrtf((float)(dx12*dx12 + dy12*dy12));
+        float len20 = sqrtf((float)(dx20*dx20 + dy20*dy20));
+        if (len01 < 0.0001f) len01 = 0.0001f;
+        if (len12 < 0.0001f) len12 = 0.0001f;
+        if (len20 < 0.0001f) len20 = 0.0001f;
+
         for (int y = miny; y <= maxy; y++) {
             for (int x = minx; x <= maxx; x++) {
-                int e0 = dx01 * (y - v0->y) - dy01 * (x - v0->x);
-                int e1 = dx12 * (y - v1->y) - dy12 * (x - v1->x);
-                int e2 = dx20 * (y - v2->y) - dy20 * (x - v2->x);
-                if ((e0 <= 0 && e1 <= 0 && e2 <= 0) || (e0 >= 0 && e1 >= 0 && e2 >= 0)) {
-                    float area = 0.5f * fabsf((float)(dx01 * (v2->y - v0->y) - dy01 * (v2->x - v0->x)));
+                float fe0 = (float)(dx01 * (y - v0->y) - dy01 * (x - v0->x));
+                float fe1 = (float)(dx12 * (y - v1->y) - dy12 * (x - v1->x));
+                float fe2 = (float)(dx20 * (y - v2->y) - dy20 * (x - v2->x));
+                if ((fe0 <= 0.0f && fe1 <= 0.0f && fe2 <= 0.0f) || (fe0 >= 0.0f && fe1 >= 0.0f && fe2 >= 0.0f)) {
+                    float d0 = fabsf(fe0) / len01;
+                    float d1 = fabsf(fe1) / len12;
+                    float d2 = fabsf(fe2) / len20;
+                    float min_dist = fminf(fminf(d0, d1), d2);
+                    float edge_fade = fminf(1.0f, min_dist / 1.0f);
+
                     float w0 = fabsf((float)(dx12 * (y - v2->y) - dy12 * (x - v2->x))) / (area * 2.0f);
                     float w1 = fabsf((float)(dx20 * (y - v0->y) - dy20 * (x - v0->x))) / (area * 2.0f);
                     float pixel_h = w0 * v0->h + w1 * v1->h + (1.0f - w0 - w1) * v2->h;
@@ -182,18 +195,25 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
                     float sx = x + tris[ti].nx * pixel_h * displace_scale * 8.0f;
                     float sy = y + tris[ti].ny * pixel_h * displace_scale * 8.0f;
 
-                    // limit displacement to avoid edge clamping artifacts
                     if (sx < 1.0f) sx = 1.0f; if (sx >= width - 1.0f) sx = width - 2.0f;
                     if (sy < 1.0f) sy = 1.0f; if (sy >= height - 1.0f) sy = height - 2.0f;
 
-                    uint32_t color = sample(src, width, height, sx, sy);
-
-                    // per-vertex greyscale gradient across triangle
                     float grad = w0 * verts[tris[ti].v0].g + w1 * verts[tris[ti].v1].g + (1.0f - w0 - w1) * verts[tris[ti].v2].g;
 
+                    uint32_t color = sample(src, width, height, sx, sy);
                     uint8_t r = (uint8_t)fminf(255.0f, ((color >> 16) & 0xFF) * grad);
                     uint8_t g = (uint8_t)fminf(255.0f, ((color >> 8) & 0xFF) * grad);
                     uint8_t b = (uint8_t)fminf(255.0f, (color & 0xFF) * grad);
+
+                    if (edge_fade < 1.0f) {
+                        uint32_t orig = src[y * width + x];
+                        uint8_t o_r = (uint8_t)fminf(255.0f, ((orig >> 16) & 0xFF) * grad);
+                        uint8_t o_g = (uint8_t)fminf(255.0f, ((orig >> 8) & 0xFF) * grad);
+                        uint8_t o_b = (uint8_t)fminf(255.0f, (orig & 0xFF) * grad);
+                        r = (uint8_t)((float)r * edge_fade + (float)o_r * (1.0f - edge_fade));
+                        g = (uint8_t)((float)g * edge_fade + (float)o_g * (1.0f - edge_fade));
+                        b = (uint8_t)((float)b * edge_fade + (float)o_b * (1.0f - edge_fade));
+                    }
 
                     data[y * width + x] = ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
                 }
