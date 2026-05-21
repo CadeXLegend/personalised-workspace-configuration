@@ -23,6 +23,20 @@ hl.window_rule({
     opacity    = "0.92 0.88",
 })
 
+-- Discord transparency + blur
+hl.window_rule({
+    name       = "discord-transparent",
+    match      = { class = "^discord$" },
+    opacity    = "0.85 0.80",
+})
+
+-- Steam transparency + blur
+hl.window_rule({
+    name       = "steam-transparent",
+    match      = { class = "^steam$" },
+    opacity    = "0.78 0.73",
+})
+
 -- xdg-desktop-portal-gtk dialogs (e.g. file chooser) — dark + blurred + transparent
 hl.window_rule({
     name       = "portal-transparent",
