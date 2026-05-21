@@ -23,7 +23,7 @@ hl.window_rule({
     opacity    = "0.92 0.88",
 })
 
--- xdg-desktop-portal-gtk dialogs (Brave file chooser etc.) — dark + blurred + transparent
+-- xdg-desktop-portal-gtk dialogs (e.g. file chooser) — dark + blurred + transparent
 hl.window_rule({
     name       = "portal-transparent",
     match      = { class = "^xdg-desktop-portal-gtk$" },

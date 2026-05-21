@@ -42,8 +42,7 @@ hl.on("hyprland.start", function()
     -- Volume overlay (wob)
     hl.exec_cmd("bash -c 'mkfifo /tmp/$HYPRLAND_INSTANCE_SIGNATURE.wob && tail -f /tmp/$HYPRLAND_INSTANCE_SIGNATURE.wob | wob & disown'")
 
-    -- Polkit agent
-    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1 &")
+
 
     -- DBus environment
     hl.exec_cmd("systemctl --user import-environment &")
@@ -61,7 +60,6 @@ hl.on("hyprland.start", function()
 
     -- Apps
     hl.exec_cmd("ghostty")
-    hl.exec_cmd("brave --enable-features=VaapiVideoDecodeLinuxGL,VaapiIgnoreDriverChecks --disable-features=UseChromeOSDirectVideoDecoder")
     hl.exec_cmd("discord")
     hl.exec_cmd("steam")
 end)
