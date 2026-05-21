@@ -22,3 +22,10 @@ hl.window_rule({
     match      = { class = "^(code-oss|Code|VSCodium)$" },
     opacity    = "0.92 0.88",
 })
+
+-- xdg-desktop-portal-gtk dialogs (Brave file chooser etc.) — dark + blurred + transparent
+hl.window_rule({
+    name       = "portal-transparent",
+    match      = { class = "^xdg-desktop-portal-gtk$" },
+    opacity    = "0.88 0.82",
+})

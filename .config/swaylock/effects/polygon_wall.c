@@ -80,7 +80,7 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
             verts[vi].x = sx;
             verts[vi].y = sy;
             verts[vi].h = 60.0f + frand(&hh) * 80.0f;
-            verts[vi].g = 0.95f + frand(&hh) * 0.10f;
+            verts[vi].g = 0.97f + frand(&hh) * 0.15f;
             vi++;
         }
     }
@@ -166,6 +166,7 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
         int dx20 = v0->x - v2->x, dy20 = v0->y - v2->y;
 
         float nz = tris[ti].nz;
+        float gloss = 1.0f + nz * nz * 0.40f;
         float displace_scale = (1.0f - fabsf(nz)) * 0.6f + 0.08f;
 
         float area = 0.5f * fabsf((float)(dx01 * (v2->y - v0->y) - dy01 * (v2->x - v0->x)));
@@ -201,15 +202,15 @@ void swaylock_effect(uint32_t *data, int width, int height, int scale) {
                     float grad = w0 * verts[tris[ti].v0].g + w1 * verts[tris[ti].v1].g + (1.0f - w0 - w1) * verts[tris[ti].v2].g;
 
                     uint32_t color = sample(src, width, height, sx, sy);
-                    uint8_t r = (uint8_t)fminf(255.0f, ((color >> 16) & 0xFF) * grad);
-                    uint8_t g = (uint8_t)fminf(255.0f, ((color >> 8) & 0xFF) * grad);
-                    uint8_t b = (uint8_t)fminf(255.0f, (color & 0xFF) * grad);
+                    uint8_t r = (uint8_t)fminf(255.0f, ((color >> 16) & 0xFF) * grad * gloss);
+                    uint8_t g = (uint8_t)fminf(255.0f, ((color >> 8) & 0xFF) * grad * gloss);
+                    uint8_t b = (uint8_t)fminf(255.0f, (color & 0xFF) * grad * gloss);
 
                     if (edge_fade < 1.0f) {
                         uint32_t orig = src[y * width + x];
-                        uint8_t o_r = (uint8_t)fminf(255.0f, ((orig >> 16) & 0xFF) * grad);
-                        uint8_t o_g = (uint8_t)fminf(255.0f, ((orig >> 8) & 0xFF) * grad);
-                        uint8_t o_b = (uint8_t)fminf(255.0f, (orig & 0xFF) * grad);
+                        uint8_t o_r = (uint8_t)fminf(255.0f, ((orig >> 16) & 0xFF) * grad * gloss);
+                        uint8_t o_g = (uint8_t)fminf(255.0f, ((orig >> 8) & 0xFF) * grad * gloss);
+                        uint8_t o_b = (uint8_t)fminf(255.0f, (orig & 0xFF) * grad * gloss);
                         r = (uint8_t)((float)r * edge_fade + (float)o_r * (1.0f - edge_fade));
                         g = (uint8_t)((float)g * edge_fade + (float)o_g * (1.0f - edge_fade));
                         b = (uint8_t)((float)b * edge_fade + (float)o_b * (1.0f - edge_fade));

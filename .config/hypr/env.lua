@@ -18,5 +18,8 @@ hl.env("QT_CURSOR_SIZE", "24")
 hl.env("QT_STYLE_OVERRIDE", "kvantum")
 hl.env("QT_ICON_THEME", "Sweet-Rainbow")
 
+-- GTK theming
+hl.env("GTK_THEME", "Breeze-Dark")
+
 -- Electron Wayland
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
