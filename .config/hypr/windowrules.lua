@@ -30,6 +30,13 @@ hl.window_rule({
     opacity    = "0.85 0.80",
 })
 
+-- Btrfs Assistant transparency + blur
+hl.window_rule({
+    name       = "btrfs-assistant-transparent",
+    match      = { class = "^btrfs-assistant$" },
+    opacity    = "0.86 0.82",
+})
+
 -- Steam transparency + blur
 hl.window_rule({
     name       = "steam-transparent",
@@ -37,9 +44,19 @@ hl.window_rule({
     opacity    = "0.78 0.73",
 })
 
--- xdg-desktop-portal-gtk dialogs (e.g. file chooser) — dark + blurred + transparent
+-- xdg-desktop-portal-gtk dialogs (e.g. file chooser) — dark + blurred + transparent + constrained
 hl.window_rule({
     name       = "portal-transparent",
     match      = { class = "^xdg-desktop-portal-gtk$" },
     opacity    = "0.88 0.82",
+    center     = true,
+    max_size   = "80% 80%",
+})
+
+-- Dolphin file transfer progress dialogs — constrain from filling the screen
+hl.window_rule({
+    name       = "dolphin-transfer-constrain",
+    match      = { class = "^org\\.kde\\.dolphin$", title = "^(Copying|Moving)" },
+    center     = true,
+    max_size   = "80% 80%",
 })

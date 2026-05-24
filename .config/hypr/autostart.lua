@@ -30,6 +30,9 @@ hl.on("hyprland.start", function()
     -- Background
     hl.exec_cmd("swaybg -o \\* -i ~/.custom/wallpapers/1378781.png -m fill")
 
+    -- Screen temperature (night mode)
+    hl.exec_cmd("hyprsunset -t 4000 &")
+
     -- Input method
     hl.exec_cmd("fcitx5 -d &")
 

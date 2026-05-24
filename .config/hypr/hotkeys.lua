@@ -98,6 +98,16 @@ hl.bind("XF86MonBrightnessDown",
     hl.dsp.exec_cmd("brightnessctl s 5%-"),
     { locked = true, repeating = true })
 
+-- ── Screen temperature (hyprsunset) ──
+
+hl.bind(mainMod .. " + N",
+    hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprsunset-toggle.sh toggle"),
+    { desc = "Toggle hyprsunset" })
+
+hl.bind(mainMod .. " + SHIFT + N",
+    hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprsunset-toggle.sh cycle"),
+    { desc = "Cycle hyprsunset temperature" })
+
 -- ── Screen lock ──
 
 hl.bind(mainMod .. " + L",
