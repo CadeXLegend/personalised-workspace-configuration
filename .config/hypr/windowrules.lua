@@ -30,6 +30,13 @@ hl.window_rule({
     opacity    = "0.85 0.80",
 })
 
+-- Telegram transparency + blur
+hl.window_rule({
+    name       = "telegram-transparent",
+    match      = { class = "^org\\.telegram\\.desktop$" },
+    opacity    = "0.85 0.80",
+})
+
 -- Btrfs Assistant transparency + blur
 hl.window_rule({
     name       = "btrfs-assistant-transparent",

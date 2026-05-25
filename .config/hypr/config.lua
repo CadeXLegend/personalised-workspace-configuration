@@ -70,6 +70,8 @@ hl.config({
     },
 
     input = {
+        kb_layout                   = "tr",
+        kb_variant                  = "alt",
         follow_mouse                = 2,
         float_switch_override_focus = 0,
     },
