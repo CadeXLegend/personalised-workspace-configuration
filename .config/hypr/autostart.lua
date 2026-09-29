@@ -52,8 +52,12 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hash dbus-update-activation-environment 2>/dev/null &")
     hl.exec_cmd("dbus-update-activation-environment --systemd &")
 
-    -- Signal systemd that the graphical session is ready (triggers vicinae + other user services)
-    hl.exec_cmd("systemctl --user start graphical-session.target")
+    -- Polkit auth agent, graphical-session.target is RefuseManualStart=yes so it never
+    -- activates and its WantedBy never fires, start the agent directly instead
+    -- the explicit import closes the race with the backgrounded imports above,
+    -- hyprpolkitagent has ConditionEnvironment=WAYLAND_DISPLAY and a user manager
+    -- without it skips the unit as condition-failed
+    hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY && systemctl --user start hyprpolkitagent")
 
     -- Idle handler
     hl.exec_cmd("swayidle -w timeout 300 '~/.config/hypr/scripts/lock.sh -f' before-sleep '~/.config/hypr/scripts/lock.sh -f'")

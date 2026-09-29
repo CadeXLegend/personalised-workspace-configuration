@@ -117,6 +117,9 @@ function goto {
         dl)
             cd ~/Downloads
             ;;
+        hypr)
+            cd ~/.config/hypr
+            ;;
         local)
             cd ~/dev/local-setup
             ;;
@@ -313,6 +316,73 @@ AWK_SCRIPT
     clean_var="${clean_var#"${clean_var%%[![:space:]]*}"}"
     clean_var="${clean_var%"${clean_var##*[![:space:]]}"}"
     echo "$clean_var"
+}
+
+# watch the latest workflow run, desktop-notify when it completes
+ghwatch() {
+  local run_id
+  run_id=$(gh run list --limit 1 --json databaseId -q '.[0].databaseId')
+  ( gh run watch "$run_id" --exit-status >/dev/null 2>&1 \
+      && notify-send -u normal "CI done" "Workflow run passed" \
+      || notify-send -u critical "CI done" "Workflow run failed" ) &!
+}
+
+# restart snappy-switcher daemon; kills any running wrapper or daemon, then starts fresh
+function snappy-restart {
+  local wrapper_bin="${SNAPPY_WRAPPER:-/usr/bin/snappy-wrapper}"
+  local daemon_bin="${SNAPPY_BINARY:-/usr/bin/snappy-switcher}"
+  local daemon_pid wrapper_pid
+
+  # kill any running snappy processes; SIGTERM first, then SIGKILL if they survive
+  daemon_pid=$(pgrep -f "snappy-switcher" 2>/dev/null)
+  wrapper_pid=$(pgrep -f "snappy-wrapper" 2>/dev/null)
+
+  if [[ -n "$wrapper_pid" ]]; then
+    kill "$wrapper_pid" 2>/dev/null && echo "[snappy-restart] SIGTERM wrapper (PID $wrapper_pid)"
+  fi
+  if [[ -n "$daemon_pid" ]]; then
+    kill "$daemon_pid" 2>/dev/null && echo "[snappy-restart] SIGTERM daemon (PID $daemon_pid)"
+  fi
+
+  sleep 0.5
+
+  # force-kill anything that survived SIGTERM
+  wrapper_pid=$(pgrep -f "snappy-wrapper" 2>/dev/null)
+  daemon_pid=$(pgrep -f "snappy-switcher" 2>/dev/null)
+  if [[ -n "$wrapper_pid" || -n "$daemon_pid" ]]; then
+    [[ -n "$wrapper_pid" ]] && kill -9 "$wrapper_pid" 2>/dev/null && echo "[snappy-restart] SIGKILL wrapper (PID $wrapper_pid)"
+    [[ -n "$daemon_pid" ]] && kill -9 "$daemon_pid" 2>/dev/null && echo "[snappy-restart] SIGKILL daemon (PID $daemon_pid)"
+    sleep 0.5
+  fi
+
+  # try the wrapper first with a timeout; it can hang on hyprctl checks in some contexts
+  echo "[snappy-restart] starting via wrapper..."
+  "$wrapper_bin" &
+  local wrapper_newpid=$!
+
+  # wait up to 5 seconds for the daemon to appear
+  local waited=0
+  while (( waited < 10 )); do
+    sleep 0.5
+    ((waited++))
+    if pgrep -f "snappy-switcher" > /dev/null 2>&1; then
+      echo "[snappy-restart] daemon started via wrapper"
+      return 0
+    fi
+  done
+
+  # wrapper timed out; kill it and start daemon directly
+  echo "[snappy-restart] wrapper timed out, starting daemon directly..."
+  kill "$wrapper_newpid" 2>/dev/null || kill -9 "$wrapper_newpid" 2>/dev/null
+  "$daemon_bin" --daemon &
+  sleep 1
+
+  if pgrep -f "snappy-switcher" > /dev/null 2>&1; then
+    echo "[snappy-restart] daemon started directly"
+  else
+    echo "[snappy-restart] failed to start daemon" >&2
+    return 1
+  fi
 }
 
 # list all custom scripts

@@ -52,6 +52,33 @@ hl.bind(mainMod .. " + SHIFT + DOWN",
     hl.dsp.exec_cmd("~/.config/hypr/scripts/snap.sh bottom"),
     { desc = "Snap to bottom half" })
 
+-- ── Quarter-screen corner snapping ──
+-- Hyprland multi-key binds fire only when the last key listed is pressed last,
+-- so each corner is bound in both press orders.
+-- The single-half bind (SUPER + SHIFT + <arrow>) also fires on the first arrow,
+-- the corner bind applies after it and wins.
+
+local corners = {
+    { target = "top-left",     keys = { "UP", "LEFT" } },
+    { target = "top-right",    keys = { "UP", "RIGHT" } },
+    { target = "bottom-left",  keys = { "DOWN", "LEFT" } },
+    { target = "bottom-right", keys = { "DOWN", "RIGHT" } },
+}
+
+for _, corner in ipairs(corners) do
+    local firstKey, secondKey = corner.keys[1], corner.keys[2]
+    local snapCmd = "~/.config/hypr/scripts/snap.sh " .. corner.target
+    local desc = "Snap to " .. corner.target .. " quarter"
+
+    hl.bind(mainMod .. " + SHIFT + " .. firstKey .. " + " .. secondKey,
+        hl.dsp.exec_cmd(snapCmd),
+        { desc = desc })
+
+    hl.bind(mainMod .. " + SHIFT + " .. secondKey .. " + " .. firstKey,
+        hl.dsp.exec_cmd(snapCmd),
+        { desc = desc })
+end
+
 -- ── Mouse drag/resize ──
 
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
@@ -125,11 +152,11 @@ hl.bind(mainMod .. " + O",
 -- The release binding below only handles fullscreen — focus is managed by the daemon.
 
 hl.bind("ALT + TAB",
-    hl.dsp.exec_cmd("snappy-switcher next"),
+    hl.dsp.exec_cmd("snappy-switcher next --mod alt"),
     { desc = "Switch to next window" })
 
 hl.bind("ALT + SHIFT + TAB",
-    hl.dsp.exec_cmd("snappy-switcher prev"),
+    hl.dsp.exec_cmd("snappy-switcher prev --mod alt"),
     { desc = "Switch to previous window" })
 
 -- hl.bind("ALT + TAB + Alt_L",

@@ -21,9 +21,10 @@ hl.config({
         active_opacity = 1.0,
 
         blur = {
+	    new_optimizations = true,
             enabled = true,
             size    = 15,
-            passes  = 2,
+            passes  = 4,
             xray    = true,
         },
 
@@ -65,8 +66,8 @@ hl.config({
         vrr                   = 2,
     },
 
-    render = {
-        direct_scanout = true,
+    render = { 
+        direct_scanout = false,
     },
 
     input = {
@@ -74,6 +75,12 @@ hl.config({
         kb_variant                  = "alt",
         follow_mouse                = 2,
         float_switch_override_focus = 0,
+    },
+
+    -- stops the focus dispatcher warping the cursor, snappy-switcher focuses
+    -- via hl.dsp.focus, which otherwise centres the cursor in the chosen window
+    cursor = {
+        no_warps = true,
     },
 
     binds = {

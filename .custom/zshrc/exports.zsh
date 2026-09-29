@@ -13,10 +13,9 @@ fi
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export NODE_PATH="$PNPM_HOME/global/5/node_modules:$NODE_PATH"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$NODE_PATH$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
@@ -32,5 +31,9 @@ export NVM_DIR="$HOME/.nvm"
 # starship
 export STARSHIP_CONFIG=~/.custom/configs/starship.toml
 # starship end
+
+# snappy-switcher
+export SNAPPY_BINARY="/usr/bin/snappy-switcher"
+# snappy-switcher end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,5 +1,5 @@
 -- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
--- ┃                      Window Rules (v2)                       ┃
+-- ┃                      Window Rules (v2)                      ┃
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 -- All windows float (never tiled); use SUPER+F to maximize.
@@ -67,3 +67,4 @@ hl.window_rule({
     center     = true,
     max_size   = "80% 80%",
 })
+
