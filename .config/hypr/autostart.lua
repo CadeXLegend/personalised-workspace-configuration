@@ -22,7 +22,19 @@ end)
 -- Raise the focused window above others on any focus change.
 -- Fixes alt+tab via snappy-switcher where the focused window
 -- doesn't get raised above the previous one.
-hl.on("window.active", function(w, reason)
+-- A fullscreen window is the exception, Hyprland ignores z-order changes on it, so alt+tab
+-- back to it lands focus while it stays buried behind the maximized floats. Pushing the
+-- other windows down instead does raise it, because nothing is left above it.
+hl.on("window.active", function(focusedWindow, reason)
+    if focusedWindow ~= nil and focusedWindow.fullscreen > 0 then
+        for _, otherWindow in ipairs(hl.get_windows()) do
+            if otherWindow.address ~= focusedWindow.address and otherWindow.workspace ~= nil and otherWindow.workspace.id == focusedWindow.workspace.id then
+                hl.dispatch(hl.dsp.window.alter_zorder({ mode = "bottom", window = "address:" .. otherWindow.address }))
+            end
+        end
+        return
+    end
+
     hl.exec_cmd("hyprctl dispatch 'hl.dsp.window.bring_to_top()'")
 end)
 

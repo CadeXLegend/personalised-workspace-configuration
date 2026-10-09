@@ -150,14 +150,16 @@ hl.bind(mainMod .. " + O",
 -- ── Snappy Switcher ──
 -- The daemon auto-selects the highlighted window when ALT is released (dismiss_modifier = alt).
 -- The release binding below only handles fullscreen — focus is managed by the daemon.
+-- dont_inhibit / allow_input_capture keep these binds alive while a browser playing a
+-- video fullscreen asks the compositor to swallow shortcuts, which otherwise eats alt+tab
 
 hl.bind("ALT + TAB",
     hl.dsp.exec_cmd("snappy-switcher next --mod alt"),
-    { desc = "Switch to next window" })
+    { desc = "Switch to next window", dont_inhibit = true, allow_input_capture = true })
 
 hl.bind("ALT + SHIFT + TAB",
     hl.dsp.exec_cmd("snappy-switcher prev --mod alt"),
-    { desc = "Switch to previous window" })
+    { desc = "Switch to previous window", dont_inhibit = true, allow_input_capture = true })
 
 -- hl.bind("ALT + TAB + Alt_L",
 --     hl.dsp.exec_cmd(""),
