@@ -62,7 +62,9 @@ hl.config({
         background_color      = bg,
         enable_swallow        = true,
         swallow_regex         = "^(nautilus|nemo|thunafr|btrfs-assistant.)$",
-        focus_on_activate     = true,
+        -- alt+tab dies inside games when this is true, Steam games re-request
+        -- activation on every focus loss, so Hyprland hands focus straight back
+        focus_on_activate     = false,
         vrr                   = 2,
     },
 
